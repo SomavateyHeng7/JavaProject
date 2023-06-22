@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h1>All Journal</h1>
+        <ul>
+            <li th:each="journal : ${journals}" class="box">
+                <a  th:if="${journal.idGroup!= null}" th:href="'/journal?id='+${journal.idGroup}">
+                    <h2 th:text="${journal.journal_title}">Journal Title</h2>
+                    <hr>
+                    <p th:text="${journal.journal_content}"></p>
+                    <hr>
+                    <h4 th:text="${journal.journal_date}"></h4>
+                </a>
+                <a  th:unless="${journal.idGroup!= null}" th:href="'/journal?id='+${journal.id}">
+                    <h2 th:text="${journal.journal_title}">Journal Title</h2>
+                    <hr>
+                    <p th:text="${journal.journal_content}"></p>
+                    <hr>
+                    <h4 th:text="${journal.journal_date}"></h4>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <a href="../" class="back">
+        <img src="back.png" alt="">
+    </a>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    .box a {
+        text-decoration: none;
+        color: black;
+    }
+    body {
+        background-color: #88abff;
+    }
+    .container {
+        padding: 1rem;
+    }
+    .center {
+        display: grid;
+        place-items: center;
+    }
+    h1 {
+        margin-bottom: 1rem;
+        color: white;
+    }
+    .box {
+        width: 500px;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 7px;
+    }
+    h2 {
+        margin-bottom: 0.5rem;
+    }
+    hr {
+        color: black;
+    }
+    p {
+        margin: 0.5rem 0;
+    }
+    h4 {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .back{
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding:15px;
+        margin: 2rem;
+        border: none;
+        padding: 1rem;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: 0.25s;
+        z-index: 2;
+    }
+    .back img
+    {
+    border-radius: 7px;
+    }
+    .back:hover {
+        transform: scale(1.1);
+    }
+    .back img {
+        background-color: white;
+        display: block;
+        width: 3rem;
+        height: 3rem;
+    }
+    ul {
+        display: flex;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        flex-wrap: wrap;
+    }
+</style>
+</html>

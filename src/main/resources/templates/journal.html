@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div id="alert">
+    <div class="center">
+        <h2>Do you want to delete this Journal and its history?</h2>
+        <form action="journal/delete" method="post">
+            <input th:if="${journal.idGroup == null}" name="id" id="id" th:value="${journal.id}" class="input-content" type="text" style="display:none;">
+            <input th:unless="${journal.idGroup == null}" name="id" id="id" th:value="${journal.idGroup}" class="input-content" type="text" style="display:none;">
+            <button class="yes">Yes</button>
+            <button  type="button" onclick="toggleDelete()">No</button>
+        </form>
+    </div >
+</div>
+<div class="center">
+    <h1>Latest</h1>
+    <div class="box" id="latest">
+        <h2 th:text="${journal.journal_title}">Journal Title</h2>
+        <hr>
+        <p th:text="${journal.journal_content}"> Welcome to Journal</p>
+        <hr>
+        <h4 th:text="${journal.journal_date}">.........</h4>
+    </div>
+    <form action="journal/edit" class="box" id="edit" method="post">
+        <input name="journal_title" id="journal_title" th:value="${journal.journal_title}" class="input-title" type="text" placeholder="Title">
+        <hr>
+        <input name="journal_content" id="journal_content" th:value="${journal.journal_content}" class="input-content" type="text" placeholder="Cotent">
+        <input th:if="${journal.idGroup == null}" name="id" id="id" th:value="${journal.id}" class="input-content" type="text" style="display:none;">
+        <input th:unless="${journal.idGroup == null}" name="id" id="id" th:value="${journal.idGroup}" class="input-content" type="text" style="display:none;">
+        <button type="submit" class="save">Save</button>
+    </form>
+    <h1>History</h1>
+    <ul>
+        <li th:each="journal : ${history}" class="box">
+            <h2 th:text="${journal.journal_title}">Journal Title</h2>
+            <hr>
+            <p th:text="${journal.journal_content}"></p>
+            <hr>
+            <h4 th:text="${journal.journal_date}"></h4>
+        </li>
+    </ul>
+</div>
+
+<div class="options">
+    <a href="../journals">
+        <button class="back" onclick="toggleBack(true)">
+            <img src="back.png" alt="">
+        </button>
+    </a>
+    <button class="edit" onclick="toggleEdit(true)">
+        <img src="edit.png" alt="">
+    </button>
+    <button class="delete" onclick="toggleDelete(true)">
+        <img src="delete.png" alt="">
+    </button>
+</div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    body {
+        background-color: #88abff;
+    }
+    .center-tall {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+    }
+    .center {
+        display: grid;
+        place-items: center;
+        z-index: 0;
+    }
+    h1 {
+        text-align: center;
+        color: white;
+        margin-top: 1rem;
+    }
+    .box {
+        width: 500px;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 7px;
+    }
+    h2 {
+        margin-bottom: 0.5rem;
+    }
+    hr {
+        color: black;
+    }
+    p {
+        margin: 0.5rem 0;
+    }
+    h4 {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .show-all {
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: 0.25s;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+    }
+    .show-all:hover {
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 1);
+        transform: scale(1.1);
+    }
+    .options {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 2rem;
+    }
+    .options button {
+        border: none;
+        padding: 0.5rem;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: 0.25s;
+        z-index: 2;
+    }
+    .options button:hover {
+        transform: scale(1.1);
+    }
+    .options button img {
+        display: block;
+        width: 2rem;
+        height: 2rem;
+    }
+    ul {
+        padding: 1rem;
+        display: flex;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .back{
+        background-color: white;
+    }
+    .back:hover {
+        transform: scale(1.1);
+    }
+    .edit {
+        background-color: orange;
+    }
+    .delete {
+        background-color: red;
+    }
+    #edit {
+        position: relative;
+        display: none;
+        z-index: 3;
+    }
+    form.box  {
+        display: grid;
+        place-items: center;
+        z-index: 3;
+    }
+    input {
+        position: relative;
+        width: 90%;
+        padding: 0.5rem;
+        border-radius: 7px;
+        border: 1px solid black;
+        font-size: 1rem;
+        margin: 1rem;
+        z-index: 2;
+    }
+    .input-title {
+        font-size: 1.2rem;
+        z-index: 2;
+    }
+    .save {
+        margin-top: 1rem;
+        background-color: rgb(0, 219, 55);
+        border-radius: 4px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: 0.25s;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+    }
+    .save:hover {
+        margin-top: 1rem;
+        background-color: rgb(0, 255, 64);
+        border-radius: 4px;
+        border: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 1);
+        transform: scale(1.1);
+    }
+    #alert {
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 2;
+        display: none;
+        place-items: center;
+    }
+    #alert h2 {
+        color: white;
+    }
+    #alert button {
+        padding: 0.5rem 1rem;
+        border-radius: 7px;
+        border: none;
+        color: white;
+    }
+    #alert button:first-child {
+        background-color: red;
+    }
+    #alert button:last-child {
+        color: black;
+        background-color: white;
+    }
+    .yes
+    {
+    background-color: red;
+    }
+</style>
+<script>
+    let showEdit = false;
+    let showDelete = false;
+    function toggleEdit() {
+        showEdit = !showEdit;
+        if(showEdit) {
+            document.getElementById("edit").style.display = "grid";
+            document.getElementById("latest").style.display = "none";
+        }
+        else {
+            document.getElementById("latest").style.display = "block";
+            document.getElementById("edit").style.display = "none";
+        }
+        document.getElementById("alert").style.display = "none";
+    }
+    function toggleDelete() {
+        showDelete = !showDelete;
+        if(showDelete) {
+            document.getElementById("alert").style.display = "grid";
+        }
+        else {
+            document.getElementById("alert").style.display = "none";
+        }
+        document.getElementById("edit").style.display = "none";
+    }
+</script>
+</html>

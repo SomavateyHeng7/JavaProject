@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="center-tall">
+    <div>
+        <h1>Latest Journal</h1>
+        <div th:if="${journal.journal_title!= null}" class="box">
+            <h2 th:text="${journal.journal_title}">Journal Title</h2>
+            <hr>
+            <p th:text="${journal.journal_content}"></p>
+            <hr>
+            <h4 th:text="${journal.journal_date}"></h4>
+        </div>
+        <div class="center"><a href="/journals" class="show-all">Show All</a></div>
+    </div>
+    <div class="add-journal" id="add">
+        <div class="center-tall">
+            <div class="center">
+                <h1>Add New Journal</h1>
+                <form action="journal/add" class="box" method="post">
+                    <input name="journal_title" id="journal_title"  class="input-title" type="text" placeholder="Title">
+                    <input name="journal_content" id="journal_content"  class="input-content" type="text" placeholder="Cotent">
+                    <button type="submit" class="save">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="add" onclick="toggleAdd()">
+    <img src="add_icon.png" alt="">
+</button>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        background-color: #88abff;
+    }
+    .center-tall {
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        z-index: 1;
+    }
+    .center {
+        display: grid;
+        place-items: center;
+    }
+    h1 {
+        text-align: center;
+        color: white;
+    }
+    .box {
+        width: 500px;
+        background-color: white;
+        padding: 1rem;
+        border-radius: 7px;
+    }
+    h2 {
+        margin-bottom: 0.5rem;
+    }
+    hr {
+        color: black;
+    }
+    p {
+        margin: 0.5rem 0;
+    }
+    h4 {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .show-all, .save {
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: 0.25s;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.6);
+    }
+    .show-all:hover, .save:hover {
+        margin-top: 1rem;
+        background-color: white;
+        border-radius: 4px;
+        border: none;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 1);
+        transform: scale(1.1);
+    }
+    .add {
+        position: fixed;
+        top: 0;
+        right: 0;
+        margin: 2rem;
+        border: none;
+        padding: 0.5rem;
+        background-color: rgb(17, 245, 55);
+        border-radius: 7px;
+        cursor: pointer;
+        transition: 0.25s;
+        z-index: 2;
+    }
+    .add:hover {
+        transform: scale(1.1);
+    }
+    .add img {
+        background-color: rgb(17, 245, 55);
+        display: block;
+        width: 3rem;
+        height: 3rem;
+    }
+    .add-journal {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 1;
+    }
+    input {
+        width: 300px;
+        padding: 0.5rem;
+        border-radius: 7px;
+        border: none;
+        margin: 0.5rem;
+    }
+    #add {
+        display: none;
+    }
+</style>
+<script>
+    let showAdd = false;
+    function toggleAdd() {
+        showAdd = !showAdd;
+        if(showAdd) {
+            document.getElementById("add").style.display = "block";
+        }
+        else {
+            document.getElementById("add").style.display = "none";
+        }
+    }
+</script>
+</html>
